@@ -1,0 +1,29 @@
+1  搭建3个master集群 
+
+ .\redis-server.exe .\redis-cluster\redis.windows-1000.conf
+ .\redis-server.exe .\redis-cluster\redis.windows-2000.conf
+ .\redis-server.exe .\redis-cluster\redis.windows-3000.conf
+ .\redis-server.exe .\redis-cluster\redis.windows-4000.conf
+ .\redis-server.exe .\redis-cluster\redis.windows-5000.conf
+ .\redis-server.exe .\redis-cluster\redis.windows-6000.conf
+
+ redis-cli --cluster create  127.0.0.1:3000 127.0.0.1:4000 127.0.0.1:5000
+
+ 输入yes redis cluster集群搭建
+
+
+
+2  搭建3主3 从的节点 
+ .\redis-cli.exe --cluster create --cluster-replicas  1 127.0.0.1:1000 127.0.0.1:2000 127.0.0.1:3000 127.0.0.1:4000 127.0.0.1:5000 127.0.0.1:6000
+ 输入 yes
+
+
+3 监控 
+用于生产环境： 基于redis_exporter以及grafana可以做到指标可视化，持久化，监控以及报警等
+
+ 注意
+ 1 出现不为空的节点,清空环境重新开始
+
+
+ 参考文章
+ https://pdai.tech/md/db/nosql-redis/db-redis-y-monitor.html#redis-stat
