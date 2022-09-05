@@ -27,8 +27,28 @@ scrape_configs:
 
     static_configs:
       - targets: ["localhost:9090"]
+  - job_name: 'redis_exporter_target'
+    static_configs:
+    - targets:
+      - redis://127.0.0.1:1000
+      - redis://127.0.0.1:2000
+      - redis://127.0.0.1:36379
+      - redis://127.0.0.1:4000
+      - redis://127.0.0.1:5000
+      - redis://127.0.0.1:6000
+      labels:
+        env: prod
+        cluster: prod-redis-cluster
+    metrics_path: /scrape
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9121
   - job_name: 'redis_exporter'
-    scrape_interval: 5s
     static_configs:
       - targets:
         - 127.0.0.1:9121
+
